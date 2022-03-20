@@ -1,5 +1,6 @@
 package com.colagom.kowet
 
+import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.callbackFlow
 import platform.Foundation.*
@@ -56,6 +57,10 @@ actual class WebSocketImpl(
                 }
             }
             realSocket?.resume()
+
+            awaitClose {
+                close()
+            }
         }
     }
 
