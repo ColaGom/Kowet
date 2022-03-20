@@ -8,3 +8,4 @@ pluginManagement {
 
 rootProject.name = "Kowet"
 include(":shared")
+include(":demo")

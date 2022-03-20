@@ -37,7 +37,11 @@ actual class WebSocketImpl(
 
     private fun ProducerScope<WebSocket.Event>.socketListener() = object : WebSocketListener() {
         override fun onClosing(webSocket: okhttp3.WebSocket, code: Int, reason: String) {
-            super.onClosing(webSocket, code, reason)
+            trySend(
+                WebSocket.Event.OnClosing(
+                    ShutdownReason(code, reason)
+                )
+            )
         }
 
         override fun onMessage(webSocket: okhttp3.WebSocket, bytes: ByteString) {
