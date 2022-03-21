@@ -1,5 +1,4 @@
 target 'iosDemo' do
   use_frameworks!
   pod 'shared', :path => '../shared'
-  pod 'StompClientLib'
 end

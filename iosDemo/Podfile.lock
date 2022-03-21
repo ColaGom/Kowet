@@ -1,27 +1,16 @@
 PODS:
   - shared (1.0)
-  - SocketRocket (0.6.0)
-  - StompClientLib (1.4.1):
-    - SocketRocket
 
 DEPENDENCIES:
   - shared (from `../shared`)
-  - StompClientLib
-
-SPEC REPOS:
-  trunk:
-    - SocketRocket
-    - StompClientLib
 
 EXTERNAL SOURCES:
   shared:
     :path: "../shared"
 
 SPEC CHECKSUMS:
-  shared: cecf094d1b43ef6680c644864077c79ccfb97b2f
-  SocketRocket: fccef3f9c5cedea1353a9ef6ada904fde10d6608
-  StompClientLib: ac40390e9660c574675f1c933bec81c8e2811a4f
+  shared: 7b4d6aa8aa7ada5f9dae3229e2524d316cb9f063
 
-PODFILE CHECKSUM: 56c4f38252dde37ece006a7b803d719f2d7cb1ee
+PODFILE CHECKSUM: c9de8863625007cd3268d1312840b7407549e4da
 
-COCOAPODS: 1.11.2
+COCOAPODS: 1.11.3
