@@ -6,6 +6,7 @@ pluginManagement {
     }
 }
 
-rootProject.name = "Kowet"
-include(":shared")
+includeBuild("convention-plugins")
+include(":kowet")
 include(":demo")
+rootProject.name = "Kowet"

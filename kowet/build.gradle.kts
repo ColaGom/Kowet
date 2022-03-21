@@ -3,10 +3,11 @@ plugins {
     kotlin("native.cocoapods")
     id("com.android.library")
     id("kotlinx-serialization")
+    id("convention.publication")
 }
 
-version = "1.0"
-
+group = "io.github.colagom"
+version = "1.0.0"
 kotlin {
     android()
     iosX64()
@@ -18,7 +19,7 @@ kotlin {
         homepage = "Link to the Shared Module homepage"
         ios.deploymentTarget = "14.1"
         framework {
-            baseName = "shared"
+            baseName = "kowet"
         }
     }
 
