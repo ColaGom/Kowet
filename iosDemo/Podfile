@@ -1,0 +1,4 @@
+target 'iosDemo' do
+  use_frameworks!
+  pod 'shared', :path => '../shared'
+end
