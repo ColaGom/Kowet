@@ -9,5 +9,4 @@ object Stomp {
         config: StompConfig = StompConfig { },
         scope: CoroutineScope
     ): StompSession = StompSessionImpl(webSocket, config, scope)
-
 }

@@ -12,6 +12,7 @@ class StompConfig(
     }
 
     var url: String = ""
+    var host: String = "lingerstudio.com"
     val version = V_1_2
     var debug: Boolean = true
     var connectionTimeout = 5.seconds

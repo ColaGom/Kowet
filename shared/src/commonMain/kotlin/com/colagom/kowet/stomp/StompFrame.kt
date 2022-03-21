@@ -1,5 +1,10 @@
 package com.colagom.kowet.stomp
 
+
+sealed interface StompEvent {
+    data class Error(val message: String) : StompEvent
+}
+
 enum class StompCommand {
     SEND,
     SUBSCRIBE,
@@ -16,14 +21,18 @@ enum class StompCommand {
     CONNECTED,
     MESSAGE,
     RECEIPT,
-    ERROR
+    ERROR;
+
+    companion object {
+        fun parse(raw: String): StompCommand? = values().find { it.name == raw.trim() }
+    }
 }
 
-class StompFrame(
-    private val command: StompCommand,
+data class StompFrame(
+    val command: StompCommand,
     private val headers: Map<String, String> = emptyMap(),
     private val body: String? = null
-) {
+) : StompEvent {
     constructor(
         command: StompCommand,
         vararg pairs: Pair<String, String>
@@ -50,6 +59,35 @@ class StompFrame(
 
     companion object {
         private const val NULL = "\u0000"
+
+        fun parse(message: String): StompFrame {
+            val lines = message.lines()
+            val command =
+                StompCommand.parse(lines[0])
+                    ?: throw RuntimeException("Required stomp command in message, but : ${lines[0]}")
+            val (headers, lastHeaderIndex) = extractHeader(lines)
+            val body =
+                if (lastHeaderIndex < lines.lastIndex) lines[lastHeaderIndex]
+                else ""
+
+            return StompFrame(
+                command,
+                headers,
+                body
+            )
+        }
+
+        private fun extractHeader(lines: List<String>): Pair<Map<String, String>, Int> {
+            val headers = mutableMapOf<String, String>()
+            for (i in 1 until lines.size) {
+                val line = lines[i]
+
+                if (line.isEmpty()) return headers to i
+                val (key, value) = line.split(':')
+                headers[key] = value
+            }
+            throw IllegalArgumentException("invalid STOMP header : ${lines.joinToString("\n")}")
+        }
     }
 }
 
@@ -87,18 +125,21 @@ class FrameFactory(
 
     fun connect(): StompFrame {
         val headers = mapOf(
-            StompHeaders.VERSION to config.version,
+            StompHeaders.ACCEPT_VERSION to config.version,
+            StompHeaders.HOST to config.host,
         )
         return StompFrame(StompCommand.CONNECT, headers)
     }
 
     fun subscribe(
         id: String,
-        destination: String
+        destination: String,
+        ack: AckMode = AckMode.AUTO
     ): StompFrame {
         val headers = mapOf(
-            StompHeaders.DESTINATION to destination,
             StompHeaders.ID to id,
+            StompHeaders.DESTINATION to destination,
+            StompHeaders.ACK to ack.value
         )
         return StompFrame(StompCommand.SUBSCRIBE, headers)
     }
