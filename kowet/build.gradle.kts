@@ -7,9 +7,11 @@ plugins {
 }
 
 group = "io.github.colagom"
-version = "1.0.0"
+version = "1.0.1"
 kotlin {
-    android()
+    android {
+        publishLibraryVariants("release", "debug")
+    }
     iosX64()
     iosArm64()
     iosSimulatorArm64()
