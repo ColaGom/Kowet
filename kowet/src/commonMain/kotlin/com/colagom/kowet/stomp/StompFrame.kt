@@ -67,7 +67,7 @@ data class StompFrame(
                     ?: throw RuntimeException("Required stomp command in message, but : ${lines[0]}")
             val (headers, lastHeaderIndex) = extractHeader(lines)
             val body =
-                if (lastHeaderIndex < lines.lastIndex) lines[lastHeaderIndex]
+                if (lastHeaderIndex < lines.lastIndex) lines.last()
                 else ""
 
             return StompFrame(
