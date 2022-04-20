@@ -7,7 +7,7 @@ plugins {
 }
 
 group = "io.github.colagom"
-version = "1.0.1"
+version = "1.0.2-rc01"
 kotlin {
     android {
         publishLibraryVariants("release", "debug")
