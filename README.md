@@ -6,6 +6,37 @@ KMM WebSocket support to STOMP protocol
 # STOMP?
 - https://stomp.github.io/stomp-specification-1.2.html
 
+# Usage
+### Android
+```kotlin
+val ws = WebSocketFactory.create("ws://10.0.2.2:8081/connect/websocket")
+// create session
+val session = Stomp.over(
+    ws,
+    scope = lifecycleScope
+)
+
+// subscribe topic
+session.subscribe("topic", "1")
+
+session.events.onEach {
+    //TODO: handle event
+}.launchIn(lifecycleScope)
+```
+
+### iOS
+```swift
+let ws = WebSocketFactory_.shared.create(url: "ws://localhost:8081/connect/websocket")
+//create session
+let wrapper = SocketHelperKt.stomp(webSocket: ws)
+
+//subscribe topic
+wrapper.subscribe(destination: "topic")
+
+wrapper.watch { event in
+    // handle event
+}
+```
 # Release
 ### Groovy DSL
 ```groovy
